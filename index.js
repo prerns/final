@@ -1,23 +1,31 @@
+
 let slider;
 let val;
+let colorPicker;
+let shapeColor;
 let lines = [];
 let circles = [];
 let rects = [];
 let isDrawing = false;
-let isDrawingLines = false;
-let isDrawingCircles = false;
-let isDrawingRects = false;
 let clearClicked = false;
 let startX, startY;
-
 let currentShape = null;
 
+
+
 function setup() {
+  //Background Color Slider
   let canvas = createCanvas(windowWidth - 150, windowHeight);
   colorMode(HSB);
+  
   slider = createSlider(0, 360, 60, 0);
   slider.position(windowWidth - 140, 80);
   slider.style('width', '130px');
+  
+  //Color Picker
+  colorPicker = createColorPicker('#ed225d');
+  colorPicker.position(windowWidth - 140, 270);
+  colorPicker.style('width', '130px');
   
   
   //Save Button
@@ -30,7 +38,7 @@ function setup() {
   
   //Clear Button
   clearButton = createButton('Clear!');
-  clearButton.position(windowWidth - 110, 290);
+  clearButton.position(windowWidth - 110, 330);
   clearButton.style("font-family", "Comic Sans MS");
   clearButton.style("font-size", "20px");
   clearButton.mousePressed(clearisPressed);
@@ -51,7 +59,7 @@ function setup() {
   
   //Rectangle Button
   rectButton = createButton('Rectangle!');
-  rectButton.position(windowWidth - 120, 210);
+  rectButton.position(windowWidth - 130, 210);
   rectButton.style("font-family", "Comic Sans MS");
   rectButton.style("font-size", "20px");
   rectButton.mousePressed(rectIsPressed);
@@ -60,8 +68,18 @@ function setup() {
 
 function draw() {
   clear();
+  
   val = slider.value();
   background(val, 40, 100, 1);
+  shapeColor = colorPicker.color();
+  let label_one = createElement('h5', 'Background Color');
+  label_one.style('color', '#000000');
+  label_one.position(windowWidth - 140, 40);
+  
+  let label_two = createElement('h5', 'Shape Color');
+  label_two.style('color', '#000000');
+  label_two.position(windowWidth - 130, 230);
+
   
   if (currentShape == "line") {
     drawLine();
@@ -119,7 +137,8 @@ function drawLine() {
   }
 
   if (isDrawing) {
-    stroke(0);
+    stroke(shapeColor);
+    fill(shapeColor);
     line(startX, startY, mouseX, mouseY);
   }
   
@@ -142,7 +161,8 @@ function drawCircle() {
     isDrawing = true;
   }
   if (isDrawing) {
-    stroke(0);
+    stroke(shapeColor);
+    fill(shapeColor);
     circle(startX, startY, 40);
   }
   
@@ -165,7 +185,8 @@ function drawRect() {
     isDrawing = true;
   }
   if (isDrawing) {
-    stroke(0);
+    stroke(shapeColor);
+    fill(shapeColor);
     rect(startX, startY, 40, 70);
   }
 }
